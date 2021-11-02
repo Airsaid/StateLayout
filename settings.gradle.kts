@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MultiStateLayout"
 include(":app")
+include(":multistatelayout")
