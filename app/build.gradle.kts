@@ -1,13 +1,14 @@
 plugins {
   id("com.android.application")
   kotlin("android")
+  id("sample")
 }
 
 android {
   compileSdk = Versions.App.COMPILE_SDK
 
   defaultConfig {
-    applicationId = "com.airsaid.multistatelayout"
+    applicationId = "com.airsaid.multistatelayout.sample"
     minSdk = Versions.App.MIN_SDK
     targetSdk = Versions.App.TARGET_SDK
     versionCode = Versions.App.VERSION_CODE
@@ -41,4 +42,6 @@ dependencies {
   testImplementation(Libs.Test.JUNIT)
   androidTestImplementation(Libs.Test.ANDROIDX_JUNIT)
   androidTestImplementation(Libs.Test.ESPRESSO)
+  implementation(Libs.SAMPLE)
+  implementation(project(":multistatelayout"))
 }
