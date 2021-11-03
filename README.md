@@ -78,7 +78,7 @@ multiStateLayout.showState(EmptyState.ID)
 # TransitionAnimation
 You can set the transition animation when the state is switched via the ```setTransitionAnimator(@Nullable TransitionAnimator transitionAnimator)``` method.
 
-Currently available transition animations are:
+Currently existing transition animations are:
 - AlphaTransitionAnimator (default)
 - TranslationTransitionAnimator
 - AlphaTranslationTransitionAnimator
