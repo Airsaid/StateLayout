@@ -83,8 +83,8 @@ afterEvaluate {
         else "https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
         credentials {
-          username = properties["ossrhUsername"] as String
-          password = properties["ossrhPassword"] as String
+          username = if (hasProperty("ossrhUsername")) properties["ossrhUsername"] as String else ""
+          password = if (hasProperty("ossrhPassword")) properties["ossrhPassword"] as String else ""
         }
       }
     }
