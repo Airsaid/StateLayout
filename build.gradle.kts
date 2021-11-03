@@ -14,6 +14,22 @@ buildscript {
   }
 }
 
+subprojects {
+  tasks.whenTaskAdded {
+    if (name == "publish") {
+      this.finalizedBy(rootProject.tasks.getByName("generateSampleApk"))
+    }
+  }
+}
+
+tasks.register<Copy>("generateSampleApk") {
+  from(rootProject.layout.projectDirectory.file("app/build/outputs/apk/debug/app-debug.apk"))
+  into(rootProject.layout.projectDirectory)
+  rename { "sample.apk" }
+
+  dependsOn(tasks.getByPath(":app:assembleDebug"))
+}
+
 tasks.register<Delete>("clean") {
   delete(rootProject.buildDir)
 }

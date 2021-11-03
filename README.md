@@ -7,6 +7,8 @@
 # Preview
 ![image](https://github.com/Airsaid/MultiStateLayout/blob/master/preview/preview.gif)
 
+Download the sample apk to see more: [Sample APK](https://github.com/Airsaid/MultiStateLayout/blob/master/sample.apk).
+
 # Setup
 Add the ```multistatelayout``` dependency to your library or app's ```build.gradle``` file:
 ```groovy
