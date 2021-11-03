@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.airsaid.multistatelayout.MultiStateLayout
+        android:id="@+id/multiStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/md_green_100">
+
+        <include layout="@layout/include_content" />
+    </com.airsaid.multistatelayout.MultiStateLayout>
+
+    <com.cz.android.sample.library.view.RadioLayout
+        android:id="@+id/animator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.cz.android.sample.library.view.RadioLayout
+        android:id="@+id/direction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp" />
+</LinearLayout>

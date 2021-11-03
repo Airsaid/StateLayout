@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MultiStateLayout</string>
+    <string name="content">I\'m content.</string>
+    <string name="empty_data">No data</string>
+    <string name="load_error">Loading failed</string>
+    <string name="reload">Reload</string>
 </resources>

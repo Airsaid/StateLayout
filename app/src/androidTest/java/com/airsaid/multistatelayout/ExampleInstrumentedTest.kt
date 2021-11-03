@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
   fun useAppContext() {
     // Context of the app under test.
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    assertEquals("com.airsaid.multistatelayout", appContext.packageName)
+    assertEquals("com.airsaid.multistatelayout.sample", appContext.packageName)
   }
 }

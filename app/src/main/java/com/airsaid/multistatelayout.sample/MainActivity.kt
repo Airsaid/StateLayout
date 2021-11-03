@@ -1,4 +1,4 @@
-package com.airsaid.multistatelayout
+package com.airsaid.multistatelayout.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
