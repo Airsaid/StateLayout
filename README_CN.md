@@ -2,15 +2,15 @@
 ![version](https://img.shields.io/maven-central/v/com.airsaid/multistatelayout)
 ![ci workflow](https://github.com/Airsaid/MultiStateLayout/actions/workflows/android.yml/badge.svg)
 
-:cyclone: A customize multiple state layout for Android. ([中文文档](https://github.com/Airsaid/MultiStateLayout/blob/main/README_CN.md))
+:cyclone: 一个 Android 上的自定义多状态布局。
 
-# Preview
+# 预览
 ![image](https://github.com/Airsaid/MultiStateLayout/blob/master/preview/preview.gif)
 
-Download the sample apk to see more: [Sample APK](https://github.com/Airsaid/MultiStateLayout/raw/master/sample.apk).
+下载示例 APK 查看更多: [Sample APK](https://github.com/Airsaid/MultiStateLayout/raw/master/sample.apk).
 
-# Setup
-Add the ```multistatelayout``` dependency to your library or app's ```build.gradle``` file:
+# 接入
+添加 ```multistatelayout``` 依赖到你的库或 APP 项目的 ```build.gradle``` 文件:
 ```groovy
 dependencies {
   ......
@@ -18,8 +18,8 @@ dependencies {
 }
 ```
 
-# Usage
-1. Implement the ```State``` and ```StateProvider``` interfaces to provide states:
+# 使用
+1. 实现 ```State``` 和 ```StateProvider``` 接口来提供各种状态:
 ```kotlin
 import com.airsaid.multistatelayout.State
 
@@ -46,14 +46,14 @@ class CommonStateProvider : StateProvider {
   }
 }
 ```
-2. Add ```MultiStateLayout``` to the XML layout:
+2. 添加 ```MultiStateLayout``` 到 XML 布局中:
 ```xml
 <com.airsaid.multistatelayout.MultiStateLayout
     android:id="@+id/multiStateLayout"
     android:layout_width="match_parent" 
     android:layout_height="match_parent">
 
-    <!-- content layout -->
+    <!-- 内容布局 -->
     <FrameLayout 
         android:layout_width="match_parent" 
         android:layout_height="match_parent">
@@ -66,35 +66,35 @@ class CommonStateProvider : StateProvider {
     </FrameLayout>
 </com.airsaid.multistatelayout.MultiStateLayout>
 ```
-3. Call the ```init()``` method in the code to initialize ```MultiStateLayout```:
+3. 在代码中调用 ```init()``` 方法来初始化 ```MultiStateLayout```:
 ```kotlin
 multiStateLayout.init(CommonStateProvider())
 ```
-4. Switching between states:
+4. 切换不同的状态：
 ```kotlin
 multiStateLayout.showContent()
 multiStateLayout.showState(LoadingState.ID)
 multiStateLayout.showState(EmptyState.ID)
 ```
 
-# TransitionAnimation
-You can set the transition animation when the state is switched via the ```setTransitionAnimator(@Nullable TransitionAnimator transitionAnimator)``` method.
+# 过渡动画
+你可以通过调用 ```setTransitionAnimator(@Nullable TransitionAnimator transitionAnimator)``` 方法来设置状态间切换的过渡动画。
 
-Currently existing transition animations are:
-- AlphaTransitionAnimator (default)
+目前已有的过渡动画有：
+- AlphaTransitionAnimator (默认的)
 - TranslationTransitionAnimator
 - AlphaTranslationTransitionAnimator
 
-# Listener
-You can add listeners for state switching through the ```addStateChangedListener(@NonNull OnStateChangedListener listener)``` method:
+# 监听
+你可以通过调用 ```addStateChangedListener(@NonNull OnStateChangedListener listener)``` 方法来添加状态改变的监听：
 ```kotlin
 multiStateLayout.addStateChangedListener { state, isShow ->
   Log.d(TAG, "onStateChanged state: $state, isShow: $isShow")
 }
 ```
 
-# More
-- Set the click event of a specific state
+# 更多
+- 设置特定状态的点击事件：
 ```kotlin
 class ErrorState : State {
   companion object {
