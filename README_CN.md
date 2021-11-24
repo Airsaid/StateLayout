@@ -1,3 +1,5 @@
+[English](README.md) | **简体中文**
+
 # MultiStateLayout
 ![version](https://img.shields.io/maven-central/v/com.airsaid/multistatelayout)
 ![ci workflow](https://github.com/Airsaid/MultiStateLayout/actions/workflows/android.yml/badge.svg)

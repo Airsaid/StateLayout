@@ -1,8 +1,10 @@
+**English** | [简体中文](README_CN.md)
+
 # MultiStateLayout
 ![version](https://img.shields.io/maven-central/v/com.airsaid/multistatelayout)
 ![ci workflow](https://github.com/Airsaid/MultiStateLayout/actions/workflows/android.yml/badge.svg)
 
-:cyclone: A customize multiple state layout for Android. ([中文文档](https://github.com/Airsaid/MultiStateLayout/blob/master/README_CN.md))
+:cyclone: A customize multiple state layout for Android.
 
 # Preview
 ![image](https://github.com/Airsaid/MultiStateLayout/blob/master/preview/preview.gif)
