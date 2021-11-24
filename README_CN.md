@@ -7,9 +7,9 @@
 :cyclone: 一个 Android 上的自定义多状态布局。
 
 # 预览
-![image](https://github.com/Airsaid/MultiStateLayout/blob/master/preview/preview.gif)
+![image](preview/preview.gif)
 
-下载示例 APK 查看更多: [Sample APK](https://github.com/Airsaid/MultiStateLayout/raw/master/sample.apk).
+下载示例 APK 查看更多: [Sample APK](sample.apk).
 
 # 接入
 添加 ```multistatelayout``` 依赖到你的库或 APP 项目的 ```build.gradle``` 文件:
