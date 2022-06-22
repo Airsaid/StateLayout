@@ -3,7 +3,6 @@ buildscript {
   repositories {
     google()
     mavenCentral()
-    maven { url = uri("https://jitpack.io") }
   }
   dependencies {
     classpath("com.android.tools.build:gradle:${Versions.ANDROID_GRADLE_PLUGIN}")
