@@ -25,7 +25,7 @@ import java.util.Queue;
  * This layout dynamically manages multiple layouts in different states
  * and can be dynamically switched among them.
  * <p>
- * The layout only allows one child view, as the content view, call to
+ * The child views of this layout is the content view, call to
  * {@link #showContent()} method to display it.
  * <p>
  * First, you need to call the {@link #init(StateProvider)} method to
@@ -65,9 +65,10 @@ public class MultiStateLayout extends FrameLayout {
   protected void onFinishInflate() {
     super.onFinishInflate();
     if (getChildCount() != 1) {
-      throw new IllegalStateException("MultiStateLayout can host only one direct child");
+      mContentView = warpContentView();
+    } else {
+      mContentView = getChildAt(0);
     }
-    mContentView = getChildAt(0);
     mCurrentStateClass = ContentState.class;
   }
 
@@ -254,6 +255,24 @@ public class MultiStateLayout extends FrameLayout {
     if (mStateTriggers == null) return;
 
     mStateTriggers.clear();
+  }
+
+  private View warpContentView() {
+    FrameLayout wrapperLayout = new FrameLayout(getContext());
+    int childCount = getChildCount();
+    if (childCount > 0) {
+      List<View> childViews = new ArrayList<>(childCount);
+      for (int i = 0; i < childCount; i++) {
+        View childView = getChildAt(i);
+        childViews.add(childView);
+      }
+      removeAllViewsInLayout();
+      for (View childView : childViews) {
+        wrapperLayout.addView(childView);
+      }
+    }
+    addView(wrapperLayout);
+    return wrapperLayout;
   }
 
   private void dispatchStateChangedListener(@NonNull State state, boolean isShow) {
