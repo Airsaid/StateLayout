@@ -8,11 +8,12 @@ import android.view.View;
  * @author airsaid
  */
 class StateSavedState extends View.BaseSavedState {
-  public int currentStateId;
+  public Class<? extends State> currentStateClass;
 
+  @SuppressWarnings("unchecked")
   public StateSavedState(Parcel source) {
     super(source);
-    currentStateId = source.readInt();
+    currentStateClass = (Class<? extends State>) source.readSerializable();
   }
 
   public StateSavedState(Parcelable superState) {
@@ -22,7 +23,7 @@ class StateSavedState extends View.BaseSavedState {
   @Override
   public void writeToParcel(Parcel out, int flags) {
     super.writeToParcel(out, flags);
-    out.writeInt(currentStateId);
+    out.writeSerializable(currentStateClass);
   }
 
   public static final Creator<StateSavedState> CREATOR =

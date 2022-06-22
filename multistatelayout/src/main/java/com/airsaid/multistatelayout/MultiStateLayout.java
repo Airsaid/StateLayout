@@ -3,7 +3,6 @@ package com.airsaid.multistatelayout;
 import android.content.Context;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -14,9 +13,13 @@ import androidx.annotation.Nullable;
 
 import com.airsaid.multistatelayout.anim.AlphaTransitionAnimator;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * This layout dynamically manages multiple layouts in different states
@@ -28,7 +31,7 @@ import java.util.List;
  * First, you need to call the {@link #init(StateProvider)} method to
  * provide the state to be managed.
  * <p>
- * Then, you can call the {@link #showState(int)} method to switch the
+ * Then, you can call the {@link #showState(Class)} or {@link #showState(State)} methods to switch the
  * layout of different state.
  * <p>
  *
@@ -36,11 +39,13 @@ import java.util.List;
  */
 public class MultiStateLayout extends FrameLayout {
 
-  private final SparseArray<State> mStates = new SparseArray<>();
+  private final Map<Class<? extends State>, State> mStates = new HashMap<>();
+  private final Queue<State> mPendingStates = new ArrayDeque<>();
   private TransitionAnimator mTransitionAnimator = new AlphaTransitionAnimator();
 
   private View mContentView;
-  private int mCurrentStateId;
+
+  private Class<? extends State> mCurrentStateClass;
   private List<OnStateChangedListener> mOnStateChangedListeners;
   private List<StateTrigger<?>> mStateTriggers;
 
@@ -63,7 +68,7 @@ public class MultiStateLayout extends FrameLayout {
       throw new IllegalStateException("MultiStateLayout can host only one direct child");
     }
     mContentView = getChildAt(0);
-    mCurrentStateId = ContentState.ID;
+    mCurrentStateClass = ContentState.class;
   }
 
   /**
@@ -74,33 +79,42 @@ public class MultiStateLayout extends FrameLayout {
    * @throws IllegalArgumentException If state does not provide.
    */
   public void init(@NonNull StateProvider stateProvider) {
-    if (mStates.size() > 0) {
+    if (isInitialize()) {
       throw new IllegalStateException("Only need to initialize once.");
     }
     List<State> states = stateProvider.getStates();
     if (states.isEmpty()) {
       throw new IllegalArgumentException("States is empty.");
     }
-    mStates.put(ContentState.ID, new ContentState());
+    mStates.put(ContentState.class, new ContentState());
     for (State state : states) {
-      mStates.append(state.getId(), state);
+      mStates.put(state.getClass(), state);
     }
+  }
+
+  /**
+   * Returns whether the MultiStateLayout is initialized.
+   *
+   * @return true: initialized, false: uninitialized.
+   */
+  public boolean isInitialize() {
+    return mStates.size() > 0;
   }
 
   /**
    * Show the content layout, which is the first child view.
    */
   public void showContent() {
-    showState(ContentState.ID);
+    showState(ContentState.class);
   }
 
   /**
-   * Show the layout of the specified {@code stateId}.
+   * Show the layout of the specified {@code stateClass}.
    *
-   * @param stateId The state id to be showed.
+   * @param stateClass The state class to be showed.
    */
-  public void showState(int stateId) {
-    showState(getState(stateId));
+  public void showState(Class<? extends State> stateClass) {
+    showState((State) getState(stateClass));
   }
 
   /**
@@ -109,35 +123,39 @@ public class MultiStateLayout extends FrameLayout {
    * @param state The state to be showed.
    */
   public void showState(@NonNull State state) {
-    setCurrentState(state);
+    boolean hasPendingStates = !mPendingStates.isEmpty();
+    mPendingStates.add(state);
+    if (!hasPendingStates) {
+      setCurrentState(state);
+    }
   }
 
   /**
-   * The {@link State} object of the specified {@code stateId}.
+   * The {@link State} object of the specified {@code stateClass}.
    *
-   * @param stateId The state id of the {@link State} object.
+   * @param stateClass The class of the {@link State} object.
    * @param <T> The state instance type.
    * @return The {@link State} object.
-   * @throws IllegalArgumentException If not found {@link State} object for the {@code stateId}.
+   * @throws IllegalArgumentException If not found {@link State} object for the {@code stateClass}.
    */
   @SuppressWarnings("unchecked")
-  public <T extends State> T getState(int stateId) {
-    State state = mStates.get(stateId);
+  public <T extends State> T getState(Class<? extends State> stateClass) {
+    State state = mStates.get(stateClass);
     if (state == null) {
-      throw new IllegalArgumentException("Not found state for " + stateId + " state id.");
+      throw new IllegalArgumentException("Not found state for " + stateClass + " state class.");
     }
     return (T) state;
   }
 
   /**
-   * The state view of the specified {@code stateId}.
+   * The state view of the specified {@code stateClass}.
    *
-   * @param stateId The state id of the state view.
+   * @param stateClass The class of the {@link State} object.
    * @return The view of the state.
    */
   @NonNull
-  public View getStateView(int stateId) {
-    return getStateView(getState(stateId));
+  public View getStateView(Class<? extends State> stateClass) {
+    return getStateView((State) getState(stateClass));
   }
 
   /**
@@ -151,10 +169,11 @@ public class MultiStateLayout extends FrameLayout {
     if (state instanceof ContentState) {
       return mContentView;
     }
-    View stateView = findViewById(state.getId());
+    View stateView = findViewWithTag(state);
     if (stateView == null) {
       stateView = LayoutInflater.from(getContext()).inflate(state.getLayoutId(), this, false);
       stateView.setVisibility(View.INVISIBLE);
+      stateView.setTag(state);
       addView(stateView);
       state.onFinishInflate(stateView);
     }
@@ -228,7 +247,18 @@ public class MultiStateLayout extends FrameLayout {
     mStateTriggers.remove(stateTrigger);
   }
 
+  /**
+   * Remove all the state triggers.
+   */
+  public void clearStateTriggers() {
+    if (mStateTriggers == null) return;
+
+    mStateTriggers.clear();
+  }
+
   private void dispatchStateChangedListener(@NonNull State state, boolean isShow) {
+    if (isShow) onStateChanged();
+
     if (mOnStateChangedListeners == null) return;
 
     int listenerCount = mOnStateChangedListeners.size();
@@ -237,10 +267,27 @@ public class MultiStateLayout extends FrameLayout {
     }
   }
 
-  private void setCurrentState(@NonNull State newState) {
-    if (mCurrentStateId == newState.getId()) return;
+  private void onStateChanged() {
+    // The current state is processed and removed
+    if (!mPendingStates.isEmpty()) {
+      mPendingStates.poll();
+    }
+    // Process the next state
+    if (!mPendingStates.isEmpty()) {
+      State newState = mPendingStates.peek();
+      if (newState != null) {
+        setCurrentState(newState);
+      }
+    }
+  }
 
-    State currentState = getState(mCurrentStateId);
+  private void setCurrentState(@NonNull State newState) {
+    if (mCurrentStateClass == newState.getClass()) {
+      onStateChanged();
+      return;
+    }
+
+    State currentState = getState(mCurrentStateClass);
     View currentStateView = getStateView(currentState);
     View newStateView = getStateView(newState);
     if (mTransitionAnimator != null) {
@@ -255,7 +302,7 @@ public class MultiStateLayout extends FrameLayout {
       newStateView.setVisibility(View.VISIBLE);
       dispatchStateChangedListener(newState, true);
     }
-    mCurrentStateId = newState.getId();
+    mCurrentStateClass = newState.getClass();
   }
 
   private void playTransitionAnimation(@NonNull State currentState, @NonNull State newState, @NonNull View exitView, @NonNull View entryView) {
@@ -298,7 +345,7 @@ public class MultiStateLayout extends FrameLayout {
   @Override
   protected Parcelable onSaveInstanceState() {
     StateSavedState savedState = new StateSavedState(super.onSaveInstanceState());
-    savedState.currentStateId = mCurrentStateId;
+    savedState.currentStateClass = mCurrentStateClass;
     return savedState;
   }
 
@@ -307,16 +354,31 @@ public class MultiStateLayout extends FrameLayout {
     if (state instanceof StateSavedState) {
       StateSavedState savedState = (StateSavedState) state;
       super.onRestoreInstanceState(savedState.getSuperState());
-      setCurrentState(getState(savedState.currentStateId));
+      setCurrentState(getState(savedState.currentStateClass));
     } else {
       super.onRestoreInstanceState(state);
     }
   }
 
   @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    attachedStateTriggers();
+  }
+
+  private void attachedStateTriggers() {
+    if (mStateTriggers == null) return;
+
+    for (StateTrigger<?> stateTrigger : mStateTriggers) {
+      stateTrigger.onAttachedToWindow();
+    }
+  }
+
+  @Override
   protected void onDetachedFromWindow() {
-    detachedStateTriggers();
     super.onDetachedFromWindow();
+    mPendingStates.clear();
+    detachedStateTriggers();
   }
 
   private void detachedStateTriggers() {

@@ -10,14 +10,8 @@ import com.airsaid.multistatelayout.sample.R
  * @author airsaid
  */
 class ErrorState : State {
-  companion object {
-    const val ID = R.id.errorLayout
-  }
-
   private lateinit var callback: () -> Unit?
   private var text: String? = null
-
-  override fun getId() = ID
 
   override fun getLayoutId() = R.layout.multi_state_error
 

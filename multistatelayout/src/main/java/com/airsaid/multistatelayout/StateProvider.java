@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author airsaid
  */
+@FunctionalInterface
 public interface StateProvider {
 
   /**

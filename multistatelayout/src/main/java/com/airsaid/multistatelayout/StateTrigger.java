@@ -32,6 +32,13 @@ public abstract class StateTrigger<T> {
   }
 
   /**
+   * This method is called when the {@link MultiStateLayout} attached to window.
+   */
+  public void onAttachedToWindow() {
+    // subclasses are implemented on demand
+  }
+
+  /**
    * This method is called when the {@link MultiStateLayout} detached from window.
    */
   public void onDetachedFromWindow() {

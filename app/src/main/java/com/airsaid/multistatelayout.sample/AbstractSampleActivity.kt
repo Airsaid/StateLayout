@@ -27,8 +27,8 @@ abstract class AbstractSampleActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(layoutId)
-    mMultiStateLayout.getState<ErrorState>(ErrorState.ID).setOnReloadListener {
-      mMultiStateLayout.showState(LoadingState.ID)
+    mMultiStateLayout.getState<ErrorState>(ErrorState::class.java).setOnReloadListener {
+      mMultiStateLayout.showState(LoadingState::class.java)
     }
   }
 
@@ -47,15 +47,15 @@ abstract class AbstractSampleActivity : AppCompatActivity() {
         return true
       }
       1 -> {
-        mMultiStateLayout.showState(LoadingState.ID)
+        mMultiStateLayout.showState(LoadingState::class.java)
         return true
       }
       2 -> {
-        mMultiStateLayout.showState(EmptyState.ID)
+        mMultiStateLayout.showState(EmptyState::class.java)
         return true
       }
       3 -> {
-        mMultiStateLayout.showState(ErrorState.ID)
+        mMultiStateLayout.showState(ErrorState::class.java)
         return true
       }
     }

@@ -10,13 +10,6 @@ import androidx.annotation.NonNull;
  * @author airsaid
  */
 public class ContentState implements State {
-  public static final int ID = 0;
-
-  @Override
-  public int getId() {
-    return ID;
-  }
-
   @Override
   public int getLayoutId() {
     throw new UnsupportedOperationException();

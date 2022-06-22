@@ -20,7 +20,7 @@ class RecyclerViewStateTrigger(private val adapter: RecyclerView.Adapter<*>) : S
     if (count != 0) {
       multiStateLayout.showContent()
     } else {
-      multiStateLayout.showState(EmptyState.ID)
+      multiStateLayout.showState(EmptyState::class.java)
     }
   }
 

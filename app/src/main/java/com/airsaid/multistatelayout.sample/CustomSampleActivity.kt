@@ -12,6 +12,6 @@ class CustomSampleActivity(
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    mMultiStateLayout.getState<ErrorState>(ErrorState.ID).setErrorText("Custom text")
+    mMultiStateLayout.getState<ErrorState>(ErrorState::class.java).setErrorText("Custom text")
   }
 }

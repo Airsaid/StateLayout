@@ -28,7 +28,7 @@ class NetworkStateTrigger(private val context: Context) : StateTrigger<Boolean>(
     if (isAvailable) {
       multiStateLayout.showContent()
     } else {
-      multiStateLayout.showState(ErrorState.ID)
+      multiStateLayout.showState(ErrorState::class.java)
     }
   }
 

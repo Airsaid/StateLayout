@@ -13,13 +13,6 @@ import androidx.annotation.NonNull;
 public interface State {
 
   /**
-   * The id of the state. it has to be unique.
-   *
-   * @return The id of the state.
-   */
-  int getId();
-
-  /**
    * The layout id of the state.
    *
    * @return The layout id of the state.
