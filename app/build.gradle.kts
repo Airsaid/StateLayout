@@ -1,7 +1,6 @@
 plugins {
   id("com.android.application")
   kotlin("android")
-  id("sample")
 }
 
 android {
@@ -42,7 +41,6 @@ dependencies {
   testImplementation(Libs.Test.JUNIT)
   androidTestImplementation(Libs.Test.ANDROIDX_JUNIT)
   androidTestImplementation(Libs.Test.ESPRESSO)
-  implementation(Libs.SAMPLE)
   implementation(project(":multistatelayout"))
 //  implementation(Libs.MULTISTATELAYOUT)
 }

@@ -7,34 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.airsaid.multistatelayout.sample.trigger.RecyclerViewStateTrigger
 import com.airsaid.multistatelayout.sample.trigger.NetworkStateTrigger
-import com.cz.android.sample.api.Register
-import com.cz.android.sample.library.component.code.SampleSourceCode
 import kotlin.random.Random
 
 /**
  * @author airsaid
  */
-@Register(title = "StateTrigger", priority = 4)
-@SampleSourceCode
-class MultiStateLayoutRecyclerViewFragment : BaseMultiStateLayoutFragment() {
+class StateTriggerSampleActivity(
+    override val layoutId: Int = R.layout.fragment_multi_state_layout_recycler_view
+) : AbstractSampleActivity() {
 
   private val mRecyclerView: RecyclerView by lazy { findViewById(R.id.recyclerView) }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_multi_state_layout_recycler_view, container, false)
-  }
-
   @SuppressLint("NotifyDataSetChanged")
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
 
     val mockData = getMockData()
     val sampleAdapter = SampleAdapter(mockData)
     mMultiStateLayout.addStateTrigger(RecyclerViewStateTrigger(sampleAdapter))
-    mMultiStateLayout.addStateTrigger(NetworkStateTrigger(requireContext()))
+    mMultiStateLayout.addStateTrigger(NetworkStateTrigger(applicationContext))
 
     mRecyclerView.adapter = sampleAdapter
 

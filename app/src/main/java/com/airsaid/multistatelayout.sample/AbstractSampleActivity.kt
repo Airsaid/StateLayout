@@ -2,20 +2,20 @@ package com.airsaid.multistatelayout.sample
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
+import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatActivity
 import com.airsaid.multistatelayout.MultiStateLayout
 import com.airsaid.multistatelayout.sample.state.EmptyState
 import com.airsaid.multistatelayout.sample.state.ErrorState
 import com.airsaid.multistatelayout.sample.state.LoadingState
-import com.cz.android.sample.api.Exclude
 
 /**
  * @author airsaid
  */
-@Exclude
-abstract class BaseMultiStateLayoutFragment : BaseFragment() {
+abstract class AbstractSampleActivity : AppCompatActivity() {
+
+  abstract val layoutId: Int
 
   protected val mMultiStateLayout: MultiStateLayout by lazy {
     (findViewById<MultiStateLayout>(R.id.multiStateLayout)).apply {
@@ -23,24 +23,21 @@ abstract class BaseMultiStateLayoutFragment : BaseFragment() {
     }
   }
 
+  @CallSuper
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setHasOptionsMenu(true)
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+    setContentView(layoutId)
     mMultiStateLayout.getState<ErrorState>(ErrorState.ID).setOnReloadListener {
       mMultiStateLayout.showState(LoadingState.ID)
     }
   }
 
-  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
     menu.add(0, 0, 0, "Show Content Layout")
     menu.add(1, 1, 1, "Show Loading Layout")
     menu.add(2, 2, 2, "Show Empty Layout")
     menu.add(3, 3, 3, "Show Error Layout")
-    super.onCreateOptionsMenu(menu, inflater)
+    return true
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
