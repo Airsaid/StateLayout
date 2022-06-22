@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/fragment_multi_state_layout">
+    tools:showIn="@layout/activity_basic_sample">
 
     <TextView
         android:layout_width="wrap_content"

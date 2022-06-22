@@ -6,6 +6,6 @@ dependencyResolutionManagement {
     jcenter() // Warning: this repository is going to shut down soon
   }
 }
-rootProject.name = "MultiStateLayout"
+rootProject.name = "StateLayout"
 include(":app")
-include(":multistatelayout")
+include(":statelayout")

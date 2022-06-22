@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.airsaid.multistatelayout.sample">
+  package="com.airsaid.statelayout.sample">
 
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -10,7 +10,7 @@
     android:label="@string/app_name"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:theme="@style/Theme.MultiStateLayout">
+    android:theme="@style/Theme.StateLayout">
     <activity
       android:name=".MainActivity"
       android:exported="true">

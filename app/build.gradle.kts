@@ -7,7 +7,7 @@ android {
   compileSdk = Versions.App.COMPILE_SDK
 
   defaultConfig {
-    applicationId = "com.airsaid.multistatelayout.sample"
+    applicationId = "com.airsaid.statelayout.sample"
     minSdk = Versions.App.MIN_SDK
     targetSdk = Versions.App.TARGET_SDK
     versionCode = Versions.App.VERSION_CODE
@@ -41,6 +41,6 @@ dependencies {
   testImplementation(Libs.Test.JUNIT)
   androidTestImplementation(Libs.Test.ANDROIDX_JUNIT)
   androidTestImplementation(Libs.Test.ESPRESSO)
-  implementation(project(":multistatelayout"))
+  implementation(project(":statelayout"))
 //  implementation(Libs.MULTISTATELAYOUT)
 }
