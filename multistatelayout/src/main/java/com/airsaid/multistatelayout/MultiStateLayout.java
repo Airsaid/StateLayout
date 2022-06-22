@@ -13,10 +13,10 @@ import androidx.annotation.Nullable;
 
 import com.airsaid.multistatelayout.anim.AlphaTransitionAnimator;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -40,7 +40,7 @@ import java.util.Queue;
 public class MultiStateLayout extends FrameLayout {
 
   private final Map<Class<? extends State>, State> mStates = new HashMap<>();
-  private final Queue<State> mPendingStates = new ArrayDeque<>();
+  private final Queue<State> mPendingStates = new LinkedList<>();
   private TransitionAnimator mTransitionAnimator = new AlphaTransitionAnimator();
 
   private View mContentView;
@@ -270,13 +270,15 @@ public class MultiStateLayout extends FrameLayout {
   private void onStateChanged() {
     // The current state is processed and removed
     if (!mPendingStates.isEmpty()) {
-      mPendingStates.poll();
+      mPendingStates.remove();
     }
-    // Process the next state
-    if (!mPendingStates.isEmpty()) {
-      State newState = mPendingStates.peek();
-      if (newState != null) {
-        setCurrentState(newState);
+    // Process the latest state
+    while (!mPendingStates.isEmpty()) {
+      State latestState = mPendingStates.remove();
+      if (mPendingStates.peek() == null) {
+        mPendingStates.add(latestState);
+        setCurrentState(latestState);
+        break;
       }
     }
   }
