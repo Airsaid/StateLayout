@@ -9,8 +9,8 @@ import com.airsaid.statelayout.sample.R
 /**
  * @author airsaid
  */
-class ErrorState : State {
-  private lateinit var callback: () -> Unit?
+open class ErrorState : State {
+  private lateinit var listener: View.OnClickListener
   private var text: String? = null
 
   override fun getLayoutId() = R.layout.state_error
@@ -20,13 +20,11 @@ class ErrorState : State {
       stateView.findViewById<TextView>(R.id.errorText).text = text
     }
 
-    stateView.findViewById<Button>(R.id.reload).setOnClickListener {
-      callback.invoke()
-    }
+    stateView.findViewById<Button>(R.id.reload).setOnClickListener(listener)
   }
 
-  fun setOnReloadListener(callback: () -> Unit) {
-    this.callback = callback
+  fun setOnReloadListener(listener: View.OnClickListener) {
+    this.listener = listener
   }
 
   fun setErrorText(text: String?) {

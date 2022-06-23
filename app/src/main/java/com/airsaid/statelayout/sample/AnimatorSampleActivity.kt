@@ -1,6 +1,5 @@
 package com.airsaid.statelayout.sample
 
-import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -21,8 +20,7 @@ class AnimatorSampleActivity(
       "AlphaTranslationTransitionAnimator" to AlphaTranslationTransitionAnimator(),
   )
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+  override fun initialize() {
     val directionRadioLayout = (findViewById<RadioGroup>(R.id.direction)).apply {
       val values = TranslationTransitionAnimator.Direction.values()
       setRadioButtons(values.map { it.name })

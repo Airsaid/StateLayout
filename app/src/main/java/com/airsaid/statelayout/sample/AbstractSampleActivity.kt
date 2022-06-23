@@ -17,16 +17,17 @@ abstract class AbstractSampleActivity : AppCompatActivity() {
 
   abstract val layoutId: Int
 
+  abstract fun initialize()
+
   protected val mStateLayout: StateLayout by lazy {
-    findViewById<StateLayout>(R.id.stateLayout).apply {
-      init(CommonStateProvider())
-    }
+    findViewById(R.id.stateLayout)
   }
 
   @CallSuper
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(layoutId)
+    initialize()
     mStateLayout.getState<ErrorState>(ErrorState::class.java).setOnReloadListener {
       mStateLayout.showState(LoadingState::class.java)
     }

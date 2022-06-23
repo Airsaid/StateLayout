@@ -38,4 +38,12 @@
     android:text="StateTrigger"
     android:textAllCaps="false"
     tools:ignore="HardcodedText" />
+
+  <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:onClick="onCustomStateProvider"
+    android:text="Custom StateProvider"
+    android:textAllCaps="false"
+    tools:ignore="HardcodedText" />
 </LinearLayout>

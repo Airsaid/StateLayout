@@ -1,6 +1,5 @@
-package com.airsaid.statelayout.sample
+package com.airsaid.statelayout.sample.stateprovider
 
-import com.airsaid.statelayout.State
 import com.airsaid.statelayout.StateProvider
 import com.airsaid.statelayout.sample.state.EmptyState
 import com.airsaid.statelayout.sample.state.ErrorState
@@ -9,8 +8,10 @@ import com.airsaid.statelayout.sample.state.LoadingState
 /**
  * @author airsaid
  */
-class CommonStateProvider : StateProvider {
-  override fun getStates(): MutableList<State> {
-    return mutableListOf(EmptyState(), ErrorState(), LoadingState())
-  }
+open class GlobalStateProvider : StateProvider {
+  override fun getStates() = mutableListOf(
+      EmptyState(),
+      ErrorState(),
+      LoadingState()
+  )
 }

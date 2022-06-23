@@ -1,7 +1,6 @@
 package com.airsaid.statelayout.sample
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,9 +21,7 @@ class StateTriggerSampleActivity(
   private val mRecyclerView: RecyclerView by lazy { findViewById(R.id.recyclerView) }
 
   @SuppressLint("NotifyDataSetChanged")
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
+  override fun initialize() {
     val mockData = getMockData()
     val sampleAdapter = SampleAdapter(mockData)
     mStateLayout.addStateTrigger(RecyclerViewStateTrigger(sampleAdapter))
