@@ -17,6 +17,7 @@ Download the sample apk to see more: [Sample APK](sample.apk).
 - API is well designed
 - Support states switching animation
 - Support setting global states
+- Support saving and restoring the current state
 - Support automatic state switching according to network status, list data and other scenarios
 - Support lazy loading, only when switching to the corresponding state to fill the layout
 
