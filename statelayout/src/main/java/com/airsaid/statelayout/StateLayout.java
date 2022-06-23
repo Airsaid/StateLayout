@@ -28,26 +28,34 @@ import java.util.Queue;
  * The child views of this layout is the content view, call to
  * {@link #showContent()} method to display it.
  * <p>
- * First, you need to call the {@link #init(StateProvider)} method to
- * provide the state to be managed.
+ * How do use {@link StateLayout}?
  * <p>
- * Then, you can call the {@link #showState(Class)} or {@link #showState(State)} methods to switch the
- * layout of different state.
+ * First, you need to call the {@link #initStateProvider(StateProvider)}
+ * or {@link StateLayout#setGlobalStateProvider(StateProvider)} methods
+ * to provide the state to be managed.
+ * <p>
+ * Then, you can call the {@link #showState(Class)} or {@link #showState(State)} methods
+ * to switch the layout of different state.
  * <p>
  *
  * @author airsaid
  */
 public class StateLayout extends FrameLayout {
 
-  private final Map<Class<? extends State>, State> mStates = new HashMap<>();
+  private static StateProvider sGlobalStateProvider;
+
   private final Queue<State> mPendingStates = new LinkedList<>();
+
   private TransitionAnimator mTransitionAnimator = new AlphaTransitionAnimator();
 
-  private View mContentView;
-
+  private StateProvider mStateProvider;
+  private Map<Class<? extends State>, State> mStates;
   private Class<? extends State> mCurrentStateClass;
+
   private List<OnStateChangedListener> mOnStateChangedListeners;
   private List<StateTrigger<?>> mStateTriggers;
+
+  private View mContentView;
 
   public StateLayout(@NonNull Context context) {
     super(context);
@@ -79,18 +87,15 @@ public class StateLayout extends FrameLayout {
    * @throws IllegalStateException If you call the method multiple times.
    * @throws IllegalArgumentException If state does not provide.
    */
-  public void init(@NonNull StateProvider stateProvider) {
-    if (isInitialize()) {
+  public void initStateProvider(@NonNull StateProvider stateProvider) {
+    if (isInitStates()) {
       throw new IllegalStateException("Only need to initialize once.");
     }
     List<State> states = stateProvider.getStates();
     if (states.isEmpty()) {
       throw new IllegalArgumentException("States is empty.");
     }
-    mStates.put(ContentState.class, new ContentState());
-    for (State state : states) {
-      mStates.put(state.getClass(), state);
-    }
+    mStateProvider = stateProvider;
   }
 
   /**
@@ -98,8 +103,8 @@ public class StateLayout extends FrameLayout {
    *
    * @return true: initialized, false: uninitialized.
    */
-  public boolean isInitialize() {
-    return mStates.size() > 0;
+  public boolean isInitStates() {
+    return mStates != null && mStates.size() > 0;
   }
 
   /**
@@ -141,7 +146,7 @@ public class StateLayout extends FrameLayout {
    */
   @SuppressWarnings("unchecked")
   public <T extends State> T getState(Class<? extends State> stateClass) {
-    State state = mStates.get(stateClass);
+    State state = getStates().get(stateClass);
     if (state == null) {
       throw new IllegalArgumentException("Not found state for " + stateClass + " state class.");
     }
@@ -257,6 +262,20 @@ public class StateLayout extends FrameLayout {
     mStateTriggers.clear();
   }
 
+  /**
+   * Sets the global {@link StateProvider} object to avoid the need to call
+   * the {@link #initStateProvider} method to provide states before each use.
+   * <p>
+   * When the {@link #initStateProvider} method is called, the {@link StateProvider}
+   * specified by the method is used to operation the state.
+   * <p>
+   *
+   * @param globalStateProvider The {@link StateProvider} object.
+   */
+  public static void setGlobalStateProvider(StateProvider globalStateProvider) {
+    sGlobalStateProvider = globalStateProvider;
+  }
+
   private View warpContentView() {
     FrameLayout wrapperLayout = new FrameLayout(getContext());
     int childCount = getChildCount();
@@ -273,6 +292,24 @@ public class StateLayout extends FrameLayout {
     }
     addView(wrapperLayout);
     return wrapperLayout;
+  }
+
+  private Map<Class<? extends State>, State> getStates() {
+    if (isInitStates()) return mStates;
+
+    mStates = new HashMap<>();
+    mStates.put(ContentState.class, new ContentState());
+    if (mStateProvider == null && sGlobalStateProvider == null) {
+      throw new IllegalArgumentException("StateProvider not set. " +
+          "Please call stateLayout.initStateProvider() or " +
+          "StateLayout.setGlobalStateProvider() to set.");
+    }
+    StateProvider stateProvider = mStateProvider != null ? mStateProvider : sGlobalStateProvider;
+    List<State> states = stateProvider.getStates();
+    for (State state : states) {
+      mStates.put(state.getClass(), state);
+    }
+    return mStates;
   }
 
   private void dispatchStateChangedListener(@NonNull State state, boolean isShow) {
