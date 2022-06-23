@@ -42,5 +42,5 @@ dependencies {
   androidTestImplementation(Libs.Test.ANDROIDX_JUNIT)
   androidTestImplementation(Libs.Test.ESPRESSO)
   implementation(project(":statelayout"))
-//  implementation(Libs.MULTISTATELAYOUT)
+//  implementation(Libs.STATELAYOUT)
 }

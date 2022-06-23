@@ -60,5 +60,5 @@ object Libs {
   const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
   const val LEAKCANARY = "com.squareup.leakcanary:leakcanary-android:2.7"
 
-  const val MULTISTATELAYOUT = "com.airsaid:multistatelayout:1.0.0"
+  const val STATELAYOUT = "com.airsaid:statelayout:1.1.0"
 }
