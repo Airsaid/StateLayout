@@ -1,3 +1,5 @@
+package com.airsaid.statelayout.sample.trigger
+
 import androidx.recyclerview.widget.RecyclerView
 import com.airsaid.statelayout.StateLayout
 import com.airsaid.statelayout.StateTrigger
