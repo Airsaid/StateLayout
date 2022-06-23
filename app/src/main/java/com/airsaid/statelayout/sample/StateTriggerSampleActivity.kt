@@ -1,6 +1,5 @@
 package com.airsaid.statelayout.sample
 
-import RecyclerViewStateTrigger
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.airsaid.statelayout.sample.trigger.NetworkStateTrigger
+import com.airsaid.statelayout.sample.trigger.RecyclerViewStateTrigger
 import kotlin.random.Random
 
 /**
