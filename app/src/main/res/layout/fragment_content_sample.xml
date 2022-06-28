@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.airsaid.statelayout.StateLayout
+        android:id="@+id/stateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/include_content"/>
+
+    </com.airsaid.statelayout.StateLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

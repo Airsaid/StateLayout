@@ -33,4 +33,8 @@ class MainActivity : AppCompatActivity() {
   fun onCustomStateProvider(v: View) {
     startActivity(Intent(this, CustomStateProviderSampleActivity::class.java))
   }
+
+  fun onWithViewPager(v: View) {
+    startActivity(Intent(this, ViewPagerSampleActivity::class.java))
+  }
 }
