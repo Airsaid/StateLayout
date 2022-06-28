@@ -412,7 +412,7 @@ public class StateLayout extends FrameLayout {
     if (state instanceof StateSavedState) {
       StateSavedState savedState = (StateSavedState) state;
       super.onRestoreInstanceState(savedState.getSuperState());
-      setCurrentState(getState(savedState.currentStateClass));
+      showState(savedState.currentStateClass);
     } else {
       super.onRestoreInstanceState(state);
     }
