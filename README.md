@@ -211,7 +211,7 @@ class ErrorState : State {
 }
 ```
 ```kotlin
-stateLayout.getState<ErrorState>(ErrorState::class.java).setOnReloadListener {
+stateLayout.getState(ErrorState::class.java).setOnReloadListener {
   // do something...
 }
 ```
