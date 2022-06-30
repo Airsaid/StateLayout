@@ -120,7 +120,7 @@ public class StateLayout extends FrameLayout {
    * @param stateClass The state class to be showed.
    */
   public void showState(Class<? extends State> stateClass) {
-    showState((State) getState(stateClass));
+    showState(getState(stateClass));
   }
 
   /**
@@ -145,7 +145,7 @@ public class StateLayout extends FrameLayout {
    * @throws IllegalArgumentException If not found {@link State} object for the {@code stateClass}.
    */
   @SuppressWarnings("unchecked")
-  public <T extends State> T getState(Class<? extends State> stateClass) {
+  public <T extends State> T getState(Class<T> stateClass) {
     State state = getStates().get(stateClass);
     if (state == null) {
       throw new IllegalArgumentException("Not found state for " + stateClass + " state class.");
@@ -161,7 +161,7 @@ public class StateLayout extends FrameLayout {
    */
   @NonNull
   public View getStateView(Class<? extends State> stateClass) {
-    return getStateView((State) getState(stateClass));
+    return getStateView(getState(stateClass));
   }
 
   /**
