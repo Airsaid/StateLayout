@@ -15,7 +15,7 @@ class CustomStateProviderSampleActivity(
 
   override fun initialize() {
     mStateLayout.initStateProvider(CustomStateProvider())
-    mStateLayout.getState<NetErrorState>(NetErrorState::class.java).setOnReloadListener {
+    mStateLayout.getState(NetErrorState::class.java).setOnReloadListener {
       mStateLayout.showState(LoadingState::class.java)
     }
   }

@@ -5,10 +5,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.postDelayed
 import com.airsaid.statelayout.StateLayout
 import com.airsaid.statelayout.sample.state.EmptyState
 import com.airsaid.statelayout.sample.state.ErrorState
 import com.airsaid.statelayout.sample.state.LoadingState
+import kotlin.random.Random
 
 /**
  * @author airsaid
@@ -28,8 +30,23 @@ abstract class AbstractSampleActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(layoutId)
     initialize()
-    mStateLayout.getState<ErrorState>(ErrorState::class.java).setOnReloadListener {
-      mStateLayout.showState(LoadingState::class.java)
+    mStateLayout.getState(ErrorState::class.java).setOnReloadListener {
+      startLoadingData()
+    }
+  }
+
+  private fun startLoadingData() {
+    mStateLayout.showState(LoadingState::class.java)
+    mStateLayout.postDelayed(Random.nextLong(0, 2000)) {
+      if (Random.nextBoolean()) {
+        mStateLayout.showContent()
+      } else {
+        if (Random.nextBoolean()) {
+          mStateLayout.showState(EmptyState::class.java)
+        } else {
+          mStateLayout.showState(ErrorState::class.java)
+        }
+      }
     }
   }
 

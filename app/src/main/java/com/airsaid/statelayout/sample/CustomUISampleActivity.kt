@@ -10,6 +10,6 @@ class CustomUISampleActivity(
 ) : AbstractSampleActivity() {
 
   override fun initialize() {
-    mStateLayout.getState<ErrorState>(ErrorState::class.java).setErrorText("Custom text")
+    mStateLayout.getState(ErrorState::class.java).setErrorText("Custom text")
   }
 }

@@ -69,11 +69,11 @@ class ViewPagerSampleActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
       super.onViewCreated(view, savedInstanceState)
-      val position = arguments!!.getInt("position")
+      val position = arguments!!.getInt(KEY_POS)
       view.findViewById<TextView>(R.id.content).text = "Tab $position"
 
       mStateLayout = view.findViewById(R.id.stateLayout)
-      mStateLayout.getState<ErrorState>(ErrorState::class.java).setOnReloadListener {
+      mStateLayout.getState(ErrorState::class.java).setOnReloadListener {
         startLoadingData()
       }
       startLoadingData()
