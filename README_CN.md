@@ -7,7 +7,7 @@
 :cyclone: 一个 Android 上的自定义多状态布局。
 
 # 预览
-![image](preview/preview.gif)
+<img width="300" height="630" src="preview/preview.gif"/>
 
 下载示例 APK 查看更多: [Sample APK](sample.apk).
 

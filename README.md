@@ -7,7 +7,7 @@
 :cyclone: A customize multiple state layout for Android.
 
 # Preview
-![image](preview/preview.gif)
+<img width="300" height="630" src="preview/preview.gif"/>
 
 Download the sample apk to see more: [Sample APK](sample.apk).
 
