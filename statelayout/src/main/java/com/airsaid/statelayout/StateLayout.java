@@ -3,6 +3,7 @@ package com.airsaid.statelayout;
 import android.content.Context;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -44,7 +45,7 @@ public class StateLayout extends FrameLayout {
 
   private static StateProvider sGlobalStateProvider;
 
-  private final Queue<State> mPendingStates = new LinkedList<>();
+  private final Queue<Pair<State, Boolean>> mPendingStates = new LinkedList<>();
 
   private TransitionAnimator mTransitionAnimator = new AlphaTransitionAnimator();
 
@@ -108,10 +109,19 @@ public class StateLayout extends FrameLayout {
   }
 
   /**
-   * Show the content layout, which is the first child view.
+   * Show the content layout, it is a children layout of the {@code StateLayout}.
    */
   public void showContent() {
-    showState(ContentState.class);
+    showContent(true);
+  }
+
+  /**
+   * Show the content layout, it is a children layout of the {@code StateLayout}.
+   *
+   * @param isAnimation Whether to use animation when switching this state (if set).
+   */
+  public void showContent(boolean isAnimation) {
+    showState(ContentState.class, isAnimation);
   }
 
   /**
@@ -120,7 +130,17 @@ public class StateLayout extends FrameLayout {
    * @param stateClass The state class to be showed.
    */
   public void showState(Class<? extends State> stateClass) {
-    showState(getState(stateClass));
+    showState(stateClass, true);
+  }
+
+  /**
+   * Show the layout of the specified {@code stateClass}.
+   *
+   * @param stateClass The state class to be showed.
+   * @param isAnimation Whether to use animation when switching this state (if set).
+   */
+  public void showState(Class<? extends State> stateClass, boolean isAnimation) {
+    showState(getState(stateClass), isAnimation);
   }
 
   /**
@@ -129,10 +149,20 @@ public class StateLayout extends FrameLayout {
    * @param state The state to be showed.
    */
   public void showState(@NonNull State state) {
+    showState(state, true);
+  }
+
+  /**
+   * Show the layout of the specified {@code state}.
+   *
+   * @param state The state to be showed.
+   * @param isAnimation Whether to use animation when switching this state (if set).
+   */
+  public void showState(@NonNull State state, boolean isAnimation) {
     boolean hasPendingStates = !mPendingStates.isEmpty();
-    mPendingStates.add(state);
+    mPendingStates.add(new Pair<>(state, isAnimation));
     if (!hasPendingStates) {
-      setCurrentState(state);
+      setCurrentState(state, isAnimation);
     }
   }
 
@@ -330,16 +360,22 @@ public class StateLayout extends FrameLayout {
     }
     // Process the latest state
     while (!mPendingStates.isEmpty()) {
-      State latestState = mPendingStates.remove();
+      Pair<State, Boolean> pair = mPendingStates.remove();
+      State latestState = pair.first;
+      boolean isAnimation = pair.second;
       if (mPendingStates.peek() == null) {
-        mPendingStates.add(latestState);
-        setCurrentState(latestState);
+        mPendingStates.add(pair);
+        setCurrentState(latestState, isAnimation);
         break;
       }
     }
   }
 
   private void setCurrentState(@NonNull State newState) {
+    setCurrentState(newState, true);
+  }
+
+  private void setCurrentState(@NonNull State newState, boolean isAnimation) {
     if (mCurrentStateClass == newState.getClass()) {
       onStateChanged();
       return;
@@ -348,7 +384,7 @@ public class StateLayout extends FrameLayout {
     State currentState = getState(mCurrentStateClass);
     View currentStateView = getStateView(currentState);
     View newStateView = getStateView(newState);
-    if (mTransitionAnimator != null) {
+    if (mTransitionAnimator != null && isAnimation) {
       if (newStateView.isLaidOut()) {
         playTransitionAnimation(currentState, newState, currentStateView, newStateView);
       } else {
