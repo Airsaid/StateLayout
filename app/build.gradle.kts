@@ -1,6 +1,7 @@
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-  id("com.android.application")
-  kotlin("android")
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -34,13 +35,13 @@ android {
 }
 
 dependencies {
-  implementation(Libs.AndroidX.KTX)
-  implementation(Libs.AndroidX.APPCOMPAT)
-  implementation(Libs.MATERIAL)
-  implementation(Libs.AndroidX.CONSTRAINTLAYOUT)
-  testImplementation(Libs.Test.JUNIT)
-  androidTestImplementation(Libs.Test.ANDROIDX_JUNIT)
-  androidTestImplementation(Libs.Test.ESPRESSO)
+  implementation(libs.androidx.ktx)
+  implementation(libs.androidx.appcompat)
+  implementation(libs.android.material)
+  implementation(libs.androidx.constraintlayout)
+  testImplementation(libs.junit)
+  androidTestImplementation(libs.androidx.junit)
+  androidTestImplementation(libs.androidx.espresso)
   implementation(project(":statelayout"))
-//  implementation(Libs.STATELAYOUT)
+//  implementation(libs.statelayout)
 }

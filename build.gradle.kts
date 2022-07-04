@@ -1,16 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-  }
-  dependencies {
-    classpath("com.android.tools.build:gradle:${Versions.ANDROID_GRADLE_PLUGIN}")
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
-    classpath("com.vanniktech:gradle-maven-publish-plugin:0.20.0")
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
-  }
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
+plugins {
+  alias(libs.plugins.android.application).apply(false)
+  alias(libs.plugins.android.library).apply(false)
+  alias(libs.plugins.kotlin.android).apply(false)
+  alias(libs.plugins.vanniktech.maven.publish).apply(false)
 }
 
 subprojects {

@@ -1,6 +1,7 @@
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-  id("com.android.library")
-  id("com.vanniktech.maven.publish")
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.vanniktech.maven.publish)
 }
 
 android {
@@ -27,8 +28,8 @@ android {
 }
 
 dependencies {
-  testImplementation(Libs.Test.JUNIT)
-  androidTestImplementation(Libs.Test.ANDROIDX_JUNIT)
-  androidTestImplementation(Libs.Test.ESPRESSO)
-  implementation(Libs.AndroidX.ANNOTATION)
+  testImplementation(libs.junit)
+  androidTestImplementation(libs.androidx.junit)
+  androidTestImplementation(libs.androidx.espresso)
+  implementation(libs.androidx.annotation)
 }
