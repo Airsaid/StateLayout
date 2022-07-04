@@ -31,7 +31,7 @@ class ViewPagerSampleActivity : AppCompatActivity() {
     val viewPager = findViewById<ViewPager2>(R.id.viewPager)
 
     viewPager.adapter = PagerSampleAdapter(this)
-    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+    TabLayoutMediator(tabLayout, viewPager, true, false) { tab, position ->
       tab.text = "Tab $position"
     }.attach()
   }
@@ -73,14 +73,16 @@ class ViewPagerSampleActivity : AppCompatActivity() {
       view.findViewById<TextView>(R.id.content).text = "Tab $position"
 
       mStateLayout = view.findViewById(R.id.stateLayout)
+      // show loading state by default
+      mStateLayout.showState(LoadingState::class.java, false)
       mStateLayout.getState(ErrorState::class.java).setOnReloadListener {
-        startLoadingData()
+        mStateLayout.showState(LoadingState::class.java)
+        requestData()
       }
-      startLoadingData()
+      requestData()
     }
 
-    private fun startLoadingData() {
-      mStateLayout.showState(LoadingState::class.java)
+    private fun requestData() {
       mStateLayout.postDelayed(Random.nextLong(0, 2000)) {
         if (Random.nextBoolean()) {
           mStateLayout.showContent()
