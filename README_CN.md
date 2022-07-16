@@ -1,8 +1,8 @@
 [English](README.md) | **简体中文**
 
 # StateLayout
-![version](https://img.shields.io/maven-central/v/com.airsaid/statelayout)
-![ci workflow](https://github.com/Airsaid/StateLayout/actions/workflows/android.yml/badge.svg)
+[![version](https://img.shields.io/maven-central/v/com.airsaid/statelayout)](https://search.maven.org/artifact/com.airsaid/statelayout)
+[![ci workflow](https://github.com/Airsaid/StateLayout/actions/workflows/android.yml/badge.svg)](https://github.com/Airsaid/StateLayout/actions)
 
 :cyclone: 一个 Android 上的自定义多状态布局。
 
