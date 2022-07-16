@@ -3,6 +3,7 @@
 # StateLayout
 [![version](https://img.shields.io/maven-central/v/com.airsaid/statelayout)](https://search.maven.org/artifact/com.airsaid/statelayout)
 [![ci workflow](https://github.com/Airsaid/StateLayout/actions/workflows/android.yml/badge.svg)](https://github.com/Airsaid/StateLayout/actions)
+[![license](https://img.shields.io/github/license/airsaid/statelayout)](LICENSE)
 
 :cyclone: A customize multiple state layout for Android.
 
