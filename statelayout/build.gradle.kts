@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+  namespace = "com.airsaid.statelayout"
   compileSdk = Versions.App.COMPILE_SDK
 
   defaultConfig {
