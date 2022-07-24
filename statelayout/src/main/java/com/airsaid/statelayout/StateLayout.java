@@ -74,7 +74,7 @@ public class StateLayout extends FrameLayout {
   protected void onFinishInflate() {
     super.onFinishInflate();
     if (getChildCount() != 1) {
-      mContentView = warpContentView();
+      mContentView = wrapContentView();
     } else {
       mContentView = getChildAt(0);
     }
@@ -306,7 +306,7 @@ public class StateLayout extends FrameLayout {
     sGlobalStateProvider = globalStateProvider;
   }
 
-  private View warpContentView() {
+  private View wrapContentView() {
     FrameLayout wrapperLayout = new FrameLayout(getContext());
     int childCount = getChildCount();
     if (childCount > 0) {
