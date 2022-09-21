@@ -38,8 +38,6 @@ import com.airsaid.statelayout.State
 class LoadingState : State {
 
   override fun getLayoutId() = R.layout.state_loading
-
-  override fun onFinishInflate(stateView: View) {}
 }
 ```
 ```kotlin
@@ -194,26 +192,44 @@ To use it, just call the `addStateTrigger()` method (multiple triggers can be ad
 stateLayout.addStateTrigger(RecyclerViewStateTrigger(sampleAdapter))
 ```
 
-# Set the click listener and style of the specified state
-In the `onFinishInflate()` callback you can get the `View` of the state layout, and then you can set the click listener or perform other actions. Example:
+# Custom State
+The `View` of the state layout can be retrieved in the `onFinishInflate()` callback, and then the specified UI or other actions can be set. For example:
 ```kotlin
 class ErrorState : State {
-  private lateinit var listener: View.OnClickListener
+  private lateinit var errorText: String
 
   override fun getLayoutId() = R.layout.state_error
 
-  override fun onFinishInflate(stateView: View) {
-    stateView.findViewById<Button>(R.id.reload).setOnClickListener(listener)
+  override fun onFinishInflate(stateLayout: StateLayout, stateView: View) {
+    stateView.findViewById<TextView>(R.id.title).text = this.errorText
   }
 
-  fun setOnReloadListener(listener: View.OnClickListener) {
-    this.listener = listener
+  fun setErrorText(text: String) {
+    this.errorText = text
   }
 }
 ```
 ```kotlin
-stateLayout.getState(ErrorState::class.java).setOnReloadListener {
-  // do something...
+stateLayout.getState(ErrorState::class.java).setErrorText("Custom Error Text")
+```
+
+# Set click retry event
+You can set the click retry event by calling the `setOnRetryClickListener()` method. For example:
+```kotlin
+stateLayout.setOnRetryClickListener {
+  // Reload data
+}
+```
+The exact time when a retry is triggered is specified by the specific state. For example, in the following example, the callback is triggered when the Retry button is clicked:
+```kotlin
+class ErrorState : State {
+  override fun getLayoutId() = R.layout.state_error
+
+  override fun onFinishInflate(stateLayout: StateLayout, stateView: View) {
+    stateView.findViewById<Button>(R.id.reload).setOnClickListener {
+      stateLayout.dispatchRetryClickListener(it)
+    }
+  }
 }
 ```
 

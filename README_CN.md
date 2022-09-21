@@ -38,8 +38,6 @@ import com.airsaid.statelayout.State
 class LoadingState : State {
 
   override fun getLayoutId() = R.layout.state_loading
-
-  override fun onFinishInflate(stateView: View) {}
 }
 ```
 ```kotlin
@@ -194,26 +192,44 @@ class RecyclerViewStateTrigger(
 stateLayout.addStateTrigger(RecyclerViewStateTrigger(sampleAdapter))
 ```
 
-# 设置指定状态的点击事件和样式
-在 `onFinishInflate()` 回调中可以获取到该状态布局的 `View`，然后可以设置点击事件或执行其他操作。例如:
+# 自定义状态
+在 `onFinishInflate()` 回调中可以获取到该状态布局的 `View`，然后可以设置指定的 UI 或其他操作。例如:
 ```kotlin
 class ErrorState : State {
-  private lateinit var listener: View.OnClickListener
+  private lateinit var errorText: String
 
   override fun getLayoutId() = R.layout.state_error
 
-  override fun onFinishInflate(stateView: View) {
-    stateView.findViewById<Button>(R.id.reload).setOnClickListener(listener)
+  override fun onFinishInflate(stateLayout: StateLayout, stateView: View) {
+    stateView.findViewById<TextView>(R.id.title).text = this.errorText
   }
 
-  fun setOnReloadListener(listener: View.OnClickListener) {
-    this.listener = listener
+  fun setErrorText(text: String) {
+    this.errorText = text
   }
 }
 ```
 ```kotlin
-stateLayout.getState(ErrorState::class.java).setOnReloadListener {
-  // do something...
+stateLayout.getState(ErrorState::class.java).setErrorText("Custom Error Text")
+```
+
+# 设置点击重试事件
+你可以通过调用 `setOnRetryClickListener()` 方法来设置点击重试事件。例如:
+```kotlin
+stateLayout.setOnRetryClickListener {
+  // 重新加载数据
+}
+```
+具体什么时候触发重试是由具体的状态指定的。例如在下面的示例中，当点击重试按钮后就触发回调：
+```kotlin
+class ErrorState : State {
+  override fun getLayoutId() = R.layout.state_error
+
+  override fun onFinishInflate(stateLayout: StateLayout, stateView: View) {
+    stateView.findViewById<Button>(R.id.reload).setOnClickListener {
+      stateLayout.dispatchRetryClickListener(it)
+    }
+  }
 }
 ```
 
