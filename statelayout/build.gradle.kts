@@ -6,11 +6,11 @@ plugins {
 
 android {
   namespace = "com.airsaid.statelayout"
-  compileSdk = Versions.App.COMPILE_SDK
+  compileSdk = 30
 
   defaultConfig {
-    minSdk = Versions.App.MIN_SDK
-    targetSdk = Versions.App.TARGET_SDK
+    minSdk = 21
+    targetSdk = 30
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles("consumer-rules.pro")
   }
