@@ -53,6 +53,7 @@ public class StateLayout extends FrameLayout {
   private Map<Class<? extends State>, State> mStates;
   private Class<? extends State> mCurrentStateClass;
 
+  private OnRetryClickListener mOnRetryClickListener;
   private List<OnStateChangedListener> mOnStateChangedListeners;
   private List<StateTrigger<?>> mStateTriggers;
 
@@ -211,7 +212,7 @@ public class StateLayout extends FrameLayout {
       stateView.setVisibility(View.INVISIBLE);
       stateView.setTag(state);
       addView(stateView);
-      state.onFinishInflate(stateView);
+      state.onFinishInflate(this, stateView);
     }
     return stateView;
   }
@@ -290,6 +291,31 @@ public class StateLayout extends FrameLayout {
     if (mStateTriggers == null) return;
 
     mStateTriggers.clear();
+  }
+
+  /**
+   * Set the event listener interface after click retry.
+   * <p>
+   * This method needs to be used in conjunction with the {@link #dispatchRetryClickListener(View)}.
+   * <p>
+   * The {@link #dispatchRetryClickListener(View)} method is triggered on the click event of the
+   * state class that needs to be retried.
+   *
+   * @param listener The {@link OnRetryClickListener} instance object.
+   */
+  public void setOnRetryClickListener(OnRetryClickListener listener) {
+    mOnRetryClickListener = listener;
+  }
+
+  /**
+   * Dispatch the click event of the state class that needs to be retried.
+   *
+   * @param view The view that was clicked.
+   */
+  public void dispatchRetryClickListener(View view) {
+    if (mOnRetryClickListener != null) {
+      mOnRetryClickListener.onClickRetry(view);
+    }
   }
 
   /**

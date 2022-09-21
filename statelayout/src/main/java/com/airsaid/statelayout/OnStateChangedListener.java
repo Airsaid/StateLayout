@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
  *
  * @author airsaid
  */
+@FunctionalInterface
 public interface OnStateChangedListener {
 
   /**

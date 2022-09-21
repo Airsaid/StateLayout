@@ -24,6 +24,20 @@ public interface State {
    * This method is called when the view is inflate for the first time.
    *
    * @param stateView The inflated view of the state.
+   * @deprecated Use {@link #onFinishInflate(StateLayout, View)} instead.
    */
-  void onFinishInflate(@NonNull View stateView);
+  @Deprecated
+  default void onFinishInflate(@NonNull View stateView) {
+
+  }
+
+  /**
+   * This method is called when the view is inflate for the first time.
+   *
+   * @param stateLayout The stateLayout that currently hosts the state.
+   * @param stateView The inflated view of the state.
+   */
+  default void onFinishInflate(@NonNull StateLayout stateLayout, @NonNull View stateView) {
+    onFinishInflate(stateView);
+  }
 }
