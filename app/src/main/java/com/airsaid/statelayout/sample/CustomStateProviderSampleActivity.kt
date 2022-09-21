@@ -2,7 +2,6 @@ package com.airsaid.statelayout.sample
 
 import android.view.Menu
 import android.view.MenuItem
-import com.airsaid.statelayout.sample.state.LoadingState
 import com.airsaid.statelayout.sample.state.NetErrorState
 import com.airsaid.statelayout.sample.stateprovider.CustomStateProvider
 
@@ -15,9 +14,6 @@ class CustomStateProviderSampleActivity(
 
   override fun initialize() {
     mStateLayout.initStateProvider(CustomStateProvider())
-    mStateLayout.getState(NetErrorState::class.java).setOnReloadListener {
-      mStateLayout.showState(LoadingState::class.java)
-    }
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {

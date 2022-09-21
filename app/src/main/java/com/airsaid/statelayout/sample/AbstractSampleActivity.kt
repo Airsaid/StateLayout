@@ -30,7 +30,7 @@ abstract class AbstractSampleActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(layoutId)
     initialize()
-    mStateLayout.getState(ErrorState::class.java).setOnReloadListener {
+    mStateLayout.setOnRetryClickListener {
       startLoadingData()
     }
   }

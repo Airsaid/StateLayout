@@ -73,12 +73,12 @@ class ViewPagerSampleActivity : AppCompatActivity() {
       view.findViewById<TextView>(R.id.content).text = "Tab $position"
 
       mStateLayout = view.findViewById(R.id.stateLayout)
-      // show loading state by default
-      mStateLayout.showState(LoadingState::class.java, false)
-      mStateLayout.getState(ErrorState::class.java).setOnReloadListener {
+      mStateLayout.setOnRetryClickListener {
         mStateLayout.showState(LoadingState::class.java)
         requestData()
       }
+      // show loading state by default
+      mStateLayout.showState(LoadingState::class.java, false)
       requestData()
     }
 
