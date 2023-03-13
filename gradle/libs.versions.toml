@@ -22,4 +22,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
-vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.21.0" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.24.0" }
